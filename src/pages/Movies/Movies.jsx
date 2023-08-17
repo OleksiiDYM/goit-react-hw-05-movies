@@ -18,7 +18,6 @@ const Movies = () => {
   const [movies, setMovies] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams('');
   const location = useLocation();
-
   const searchQuery = searchParams.get('query');
 
   useEffect(() => {
@@ -30,12 +29,10 @@ const Movies = () => {
 
     const response = await fetchByQuery(query);
     setMovies(response);
-    console.log(response);
     if (response.length === 0) {
       alert('Sorry, we do not find any movie');
     }
     setSearchParams({ query });
-    console.log(query);
 
     setQuery('');
   };

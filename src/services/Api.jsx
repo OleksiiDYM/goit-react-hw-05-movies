@@ -4,37 +4,18 @@ import defaultPhoto from '../components/Images/default.jpg';
 axios.defaults.baseURL = 'https://api.themoviedb.org/3';
 axios.defaults.params = {
   api_key: 'd49e0110fba862765bd35e51be725d3a',
-  //   include_adult: false,
 };
 
-// https://image.tmdb.org/t/p/w500/kqjL17yufvn9OVLyXYpvtyrFfak.jpg
 const IMG_URL = 'https://image.tmdb.org/t/p/w500';
 
-// export const fetchTrending = async () => {
-//   const { data } = await axios.get(`/trending/all/day?`);
-//   console.log(data);
-//   const response = data.results;
-//   return response;
-// };
-// fetchTrending();
-
 export const fetchTrending = async () => {
-  return axios
-    .get(`/trending/all/week?`)
-    .then(({ data: { results } }) =>
-      results.map(
-        ({ id, title, poster_path: poster }) => ({
-          id,
-          title,
-          poster: IMG_URL + poster,
-        }),
-        console.log(results)
-      )
-    )
-
-    .catch(error => {
-      console.log(error.message);
-    });
+  return axios.get(`/trending/all/week?`).then(({ data: { results } }) =>
+    results.map(({ id, title, poster_path: poster }) => ({
+      id,
+      title,
+      poster: IMG_URL + poster,
+    }))
+  );
 };
 
 export const fetchByQuery = async query => {
@@ -46,10 +27,7 @@ export const fetchByQuery = async query => {
         title,
         poster: IMG_URL + poster,
       }))
-    )
-    .catch(error => {
-      console.log(error.message);
-    });
+    );
 };
 
 export const fetchMovieDetails = movieId => {
@@ -74,41 +52,27 @@ export const fetchMovieDetails = movieId => {
         userScore: Math.round(userScore * 10),
         overview,
         genres,
-      }),
-      console.log(movieId)
-    )
-    .catch(error => {
-      console.log(error.message);
-    });
+      })
+    );
 };
 
 export const fetchMovieCredits = movieId => {
-  return axios
-    .get(`/movie/${movieId}/credits?`)
-    .then(({ data: { cast } }) =>
-      cast.map(({ id, name, character, profile_path: photo }) => ({
-        id,
-        name,
-        character,
-        photo: photo ? IMG_URL + photo : defaultPhoto,
-      }))
-    )
-    .catch(error => {
-      console.log(error.message);
-    });
+  return axios.get(`/movie/${movieId}/credits?`).then(({ data: { cast } }) =>
+    cast.map(({ id, name, character, profile_path: photo }) => ({
+      id,
+      name,
+      character,
+      photo: photo ? IMG_URL + photo : defaultPhoto,
+    }))
+  );
 };
 
 export const fetchMovieReviews = movieId => {
-  return axios
-    .get(`/movie/${movieId}/reviews?`)
-    .then(({ data: { results } }) =>
-      results.map(({ id, author, content }) => ({
-        id,
-        author,
-        content,
-      }))
-    )
-    .catch(error => {
-      console.log(error.message);
-    });
+  return axios.get(`/movie/${movieId}/reviews?`).then(({ data: { results } }) =>
+    results.map(({ id, author, content }) => ({
+      id,
+      author,
+      content,
+    }))
+  );
 };

@@ -17,7 +17,7 @@ const Home = () => {
   useEffect(() => {
     fetchTrending().then(setMovies);
   }, []);
-  console.log();
+
   return (
     <HomeContainer>
       <HomeTitle>Tranding this week</HomeTitle>

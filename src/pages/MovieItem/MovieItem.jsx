@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-
 import { useParams, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { fetchMovieDetails } from '../../services/Api';
 import {
