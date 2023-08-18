@@ -1,5 +1,6 @@
 import axios from 'axios';
 import defaultPhoto from '../components/Images/default.jpg';
+import defaultMoviePhoto from '../components/Images/defaultMovie.jpg';
 
 axios.defaults.baseURL = 'https://api.themoviedb.org/3';
 axios.defaults.params = {
@@ -25,7 +26,7 @@ export const fetchByQuery = async query => {
       results.map(({ id, title, poster_path: poster }) => ({
         id,
         title,
-        poster: IMG_URL + poster,
+        poster: poster ? IMG_URL + poster : defaultMoviePhoto,
       }))
     );
 };
