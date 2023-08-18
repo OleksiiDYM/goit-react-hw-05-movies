@@ -1,6 +1,13 @@
-import { MovieItem, MovieLink, Img, MovieTitle } from './Home.styled';
+import { useLocation } from 'react-router-dom';
+import {
+  MovieItem,
+  MovieLink,
+  Img,
+  MovieTitle,
+  MovieList,
+} from '../../pages/Home/Home.styled';
 
-export const MovieList = ({ movies }) => {
+export const MoviesList = ({ movies }) => {
   const location = useLocation();
   return (
     <MovieList>

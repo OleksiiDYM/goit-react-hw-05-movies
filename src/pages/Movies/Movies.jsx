@@ -1,26 +1,26 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, useLocation } from 'react-router-dom';
 import { fetchByQuery } from '../../services/Api';
-import {
-  FormDiv,
-  Form,
-  Input,
-  Button,
-  MovieList,
-  MovieItem,
-  MovieLink,
-  Img,
-  MovieTitle,
-} from './Movies.styled';
+import Loader from '../../components/Loader/Loader';
+import { MoviesList } from '../../components/MoviesList/MoviesList';
+import { FormDiv, Form, Input, Button } from './Movies.styled';
 
 const Movies = () => {
   const [query, setQuery] = useState('');
   const [movies, setMovies] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
   const location = useLocation();
   const searchQuery = searchParams.get('query');
 
   useEffect(() => {
+    try {
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
+    }
     searchQuery && fetchByQuery(searchQuery).then(setMovies);
   }, [searchQuery]);
 
@@ -43,20 +43,9 @@ const Movies = () => {
           <Button type="submit">search</Button>
         </Form>
       </FormDiv>
-      {movies.length > 0 && (
-        <MovieList>
-          {movies.map(({ id, title, poster }) => (
-            <MovieItem key={id}>
-              <MovieLink to={`/movies/${id}`} state={{ from: location }}>
-                <Img src={poster} alt={title} />
-                <MovieTitle>
-                  <h3>{title}</h3>
-                </MovieTitle>
-              </MovieLink>
-            </MovieItem>
-          ))}
-        </MovieList>
-      )}
+      {isLoading && <Loader />}
+      {error && <p>Oops, something went wrong...</p>}
+      {movies.length > 0 && <MoviesList movies={movies} />}
     </>
   );
 };

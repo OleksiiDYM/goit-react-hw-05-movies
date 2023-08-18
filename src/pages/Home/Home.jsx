@@ -1,40 +1,36 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { fetchTrending } from '../../services/Api';
-import {
-  HomeContainer,
-  HomeTitle,
-  MovieList,
-  MovieItem,
-  MovieLink,
-  Img,
-  MovieTitle,
-} from './Home.styled';
+import Loader from '../../components/Loader/Loader';
+import { MoviesList } from '../../components/MoviesList/MoviesList';
+import { HomeContainer, HomeTitle } from './Home.styled';
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
   const location = useLocation();
   useEffect(() => {
-    fetchTrending().then(setMovies);
+    setIsLoading(true);
+    const getMovies = async () => {
+      try {
+        const data = await fetchTrending();
+        setMovies(data);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    getMovies();
   }, []);
 
   return (
     <HomeContainer>
       <HomeTitle>Tranding this week</HomeTitle>
-      {movies.length > 0 && (
-        <MovieList>
-          {movies.map(({ id, title, poster }) => (
-            <MovieItem key={id}>
-              <MovieLink to={`/movies/${id}`} state={{ from: location }}>
-                <Img src={poster} alt={title} />
-                <MovieTitle>
-                  <h3>{title}</h3>
-                </MovieTitle>
-              </MovieLink>
-            </MovieItem>
-          ))}
-        </MovieList>
-      )}
+      {isLoading && <Loader />}
+      {error && <p>Oops, something went wrong...</p>}
+      {movies.length > 0 && <MoviesList movies={movies} />}
     </HomeContainer>
   );
 };
