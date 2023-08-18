@@ -24,14 +24,9 @@ const Movies = () => {
     searchQuery && fetchByQuery(searchQuery).then(setMovies);
   }, [searchQuery]);
 
-  const handleSubmit = async e => {
+  const handleSubmit = e => {
     e.preventDefault();
 
-    const response = await fetchByQuery(query);
-    setMovies(response);
-    if (response.length === 0) {
-      alert('Sorry, we do not find any movie');
-    }
     setSearchParams({ query });
 
     setQuery('');

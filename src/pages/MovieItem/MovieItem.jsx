@@ -17,7 +17,7 @@ const MovieDetails = () => {
   const { movieId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-  const backLinkHref = location.state?.from ?? '/movies';
+  const backLinkHref = location.state?.from ?? '/';
 
   const { poster, title, releaseYear, userScore, overview, genres } =
     movie ?? {};
