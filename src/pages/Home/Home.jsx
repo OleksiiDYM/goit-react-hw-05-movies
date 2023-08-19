@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-// import { useLocation } from 'react-router-dom';
 import { fetchTrending } from '../../services/Api';
 import Loader from '../../components/Loader/Loader';
 import { MoviesList } from '../../components/MoviesList/MoviesList';
@@ -9,7 +8,7 @@ const Home = () => {
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  // const location = useLocation();
+
   useEffect(() => {
     setIsLoading(true);
     const getMovies = async () => {

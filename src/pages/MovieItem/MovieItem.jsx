@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { fetchMovieDetails } from '../../services/Api';
+import Loader from '../../components/Loader/Loader';
 import {
   Btn,
   MovieContainer,
@@ -18,11 +19,18 @@ const MovieDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const backLinkHref = location.state?.from ?? '/';
-
   const { poster, title, releaseYear, userScore, overview, genres } =
     movie ?? {};
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
+    try {
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
+    }
     fetchMovieDetails(movieId).then(setMovie);
   }, [movieId]);
 
@@ -38,6 +46,8 @@ const MovieDetails = () => {
       {movie && (
         <div>
           <MovieContainer>
+            {isLoading && <Loader />}
+            {error && <p>Oops, something went wrong...</p>}
             <Img src={poster} alt={title} />
             <MovieInfo>
               <MovieTitle>
